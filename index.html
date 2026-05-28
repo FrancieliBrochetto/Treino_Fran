@@ -166,34 +166,33 @@
 <script>
 const DAYS = [
   {id:'supA', label:'Segunda — Superior A (Peito + Ombro)', short:'Seg', exercises:[
-    {id:'supino_reto', name:'Supino reto c/ barra', sets:4, repsTarget:'6–8', rest:'2–3 min', progEvery:2},
-    {id:'supino_inc', name:'Supino inclinado halteres', sets:4, repsTarget:'8–10', rest:'90s', progEvery:2},
-    {id:'desenv_halt', name:'Desenvolvimento halteres', sets:4, repsTarget:'8–10', rest:'90s', progEvery:3},
-    {id:'elev_lat', name:'Elevação lateral cabos', sets:3, repsTarget:'12–15', rest:'60s', progEvery:3},
-    {id:'triceps_corda', name:'Tríceps polia corda', sets:3, repsTarget:'12–15', rest:'60s', progEvery:3},
-    {id:'face_pull', name:'Face pull corda', sets:3, repsTarget:'15', rest:'60s', progEvery:4},
+    {id:'supino_reto', name:'Supino reto c/ barra', sets:4, repsTarget:'6–8', rest:'2–3 min', tipo:'composto', prog:2.5},
+    {id:'supino_inc', name:'Supino inclinado halteres', sets:4, repsTarget:'8–10', rest:'90s', tipo:'composto', prog:2.5},
+    {id:'desenv_halt', name:'Desenvolvimento halteres', sets:3, repsTarget:'8–10', rest:'90s', tipo:'composto', prog:2.5},
+    {id:'elev_lat', name:'Elevação lateral cabos', sets:3, repsTarget:'12–15', rest:'60s', tipo:'isolamento', prog:1},
+    {id:'face_pull', name:'Face pull corda', sets:3, repsTarget:'15', rest:'60s', tipo:'isolamento', prog:1},
   ]},
   {id:'infA', label:'Terça — Inferior A (Glúteo + Posterior)', short:'Ter', exercises:[
-    {id:'hip_thrust', name:'Hip thrust c/ barra', sets:4, repsTarget:'8–10', rest:'2 min', progEvery:2},
-    {id:'stiff', name:'Stiff-leg deadlift halteres', sets:4, repsTarget:'8–10', rest:'90s', progEvery:2},
-    {id:'bulgaro', name:'Agachamento búlgaro', sets:3, repsTarget:'10–12', rest:'90s', progEvery:3},
-    {id:'leg_curl', name:'Cadeira flexora', sets:3, repsTarget:'12–15', rest:'60s', progEvery:3},
-    {id:'abducao', name:'Abdução de quadril cabo', sets:3, repsTarget:'15', rest:'60s', progEvery:4},
+    {id:'hip_thrust', name:'Hip thrust c/ barra', sets:4, repsTarget:'8–10', rest:'2 min', tipo:'composto', prog:2.5},
+    {id:'bulgaro', name:'Agachamento búlgaro', sets:3, repsTarget:'10–12', rest:'90s', tipo:'composto', prog:2.5},
+    {id:'stiff', name:'Stiff-leg deadlift halteres', sets:4, repsTarget:'8–10', rest:'90s', tipo:'composto', prog:2.5},
+    {id:'leg_curl', name:'Cadeira flexora', sets:3, repsTarget:'12–15', rest:'60s', tipo:'isolamento', prog:1},
+    {id:'abducao', name:'Abdução de quadril cabo', sets:3, repsTarget:'15', rest:'60s', tipo:'isolamento', prog:1},
   ]},
-  {id:'supB', label:'Sábado — Superior B (Costas + Bíceps)', short:'Sáb', exercises:[
-    {id:'pullup', name:'Barra fixa / Lat pulldown', sets:4, repsTarget:'6–8 / 8–10', rest:'2–3 min', progEvery:2},
-    {id:'remada_unilat', name:'Remada unilateral halter', sets:4, repsTarget:'8–10', rest:'90s', progEvery:2},
-    {id:'remada_chest', name:'Remada chest supported', sets:3, repsTarget:'10–12', rest:'90s', progEvery:3},
-    {id:'pullover', name:'Pullover polia alta', sets:3, repsTarget:'12–15', rest:'60s', progEvery:3},
-    {id:'rosca_direta', name:'Rosca direta barra/halt.', sets:3, repsTarget:'10–12', rest:'60s', progEvery:3},
-    {id:'rosca_martelo', name:'Rosca martelo', sets:3, repsTarget:'12', rest:'60s', progEvery:3},
+  {id:'supB', label:'Sábado — Superior B (Costas + Bíceps + Tríceps)', short:'Sáb', exercises:[
+    {id:'pullup', name:'Barra fixa / Lat pulldown', sets:4, repsTarget:'6–8 / 8–10', rest:'2–3 min', tipo:'composto', prog:2.5},
+    {id:'remada_unilat', name:'Remada unilateral halter', sets:4, repsTarget:'8–10', rest:'90s', tipo:'composto', prog:2.5},
+    {id:'remada_chest', name:'Remada chest supported', sets:3, repsTarget:'10–12', rest:'90s', tipo:'composto', prog:2.5},
+    {id:'pullover', name:'Pullover polia alta', sets:3, repsTarget:'12–15', rest:'60s', tipo:'isolamento', prog:1},
+    {id:'triceps_corda', name:'Tríceps polia corda', sets:3, repsTarget:'12–15', rest:'60s', tipo:'isolamento', prog:1},
+    {id:'rosca_direta', name:'Rosca direta barra/halt.', sets:3, repsTarget:'10–12', rest:'60s', tipo:'isolamento', prog:1},
   ]},
   {id:'infB', label:'Domingo — Inferior B (Quadríceps + Glúteo)', short:'Dom', exercises:[
-    {id:'leg_press', name:'Leg press 45°', sets:4, repsTarget:'8–10', rest:'2 min', progEvery:2},
-    {id:'leg_ext', name:'Cadeira extensora', sets:4, repsTarget:'12–15', rest:'60s', progEvery:3},
-    {id:'lunge', name:'Avanço c/ halteres', sets:3, repsTarget:'10–12', rest:'90s', progEvery:3},
-    {id:'hip_thrust_unilat', name:'Hip thrust unilateral', sets:3, repsTarget:'12', rest:'60s', progEvery:3},
-    {id:'calf', name:'Panturrilha em pé', sets:4, repsTarget:'15–20', rest:'45s', progEvery:4},
+    {id:'leg_press', name:'Leg press 45°', sets:4, repsTarget:'8–10', rest:'2 min', tipo:'composto', prog:2.5},
+    {id:'sumô', name:'Agachamento sumô c/ halter', sets:3, repsTarget:'10–12', rest:'90s', tipo:'composto', prog:2.5},
+    {id:'leg_ext', name:'Cadeira extensora', sets:4, repsTarget:'12–15', rest:'60s', tipo:'isolamento', prog:1},
+    {id:'hip_thrust_unilat', name:'Hip thrust unilateral', sets:3, repsTarget:'12', rest:'60s', tipo:'isolamento', prog:1},
+    {id:'calf', name:'Panturrilha em pé', sets:4, repsTarget:'15–20', rest:'45s', tipo:'isolamento', prog:1},
   ]},
 ];
 
@@ -202,8 +201,8 @@ const WEEKS = [
   {w:2,phase:'Volume base',desc:'Adicione 1 série nos compostos se a técnica estiver consistente.',tipo:'normal'},
   {w:3,phase:'Progressão de carga',desc:'Aumente 2,5 kg nos compostos que atingiu o limite superior de reps.',tipo:'prog'},
   {w:4,phase:'Deload',desc:'Reduza o volume em 40% (menos séries). Mantenha a carga. Recuperação ativa.',tipo:'deload'},
-  {w:5,phase:'Volume + técnicas avançadas',desc:'Adicione drop sets no último set dos exercícios de isolamento.',tipo:'normal'},
-  {w:6,phase:'Volume + técnicas avançadas',desc:'Experimente rest-pause em 1 exercício por dia de treino.',tipo:'normal'},
+  {w:5,phase:'Volume + técnicas avançadas',desc:'Adicione drop sets no último set dos isolamentos apenas (elevação lateral, rosca, tríceps, extensora, abdução). Nunca em compostos pesados.',tipo:'normal'},
+  {w:6,phase:'Volume + técnicas avançadas',desc:'Experimente rest-pause em 1 exercício de isolamento por dia. Compostos pesados (supino, hip thrust, leg press) continuam normais.',tipo:'normal'},
   {w:7,phase:'Progressão de carga',desc:'Aumente 2,5 kg nos compostos. Avalie qual técnica avançada funcionou melhor.',tipo:'prog'},
   {w:8,phase:'Deload',desc:'Semana de recuperação. 40% menos volume. Bom momento para ajustar técnica.',tipo:'deload'},
   {w:9,phase:'Novo ciclo — volume alto',desc:'Inicie novo bloco. Pode trocar 1 exercício de isolamento por dia se quiser variação.',tipo:'normal'},
@@ -279,12 +278,34 @@ function renderExercises() {
 
   day.exercises.forEach(ex => {
     const pr = getBestWeight(ex.id);
-    const progDue = (state.currentWeek % ex.progEvery === 0) && !isDeload;
-    const npw = nextProgWeek(state.currentWeek, ex.progEvery);
-    const setsToShow = isDeload ? Math.max(2, ex.sets-2) : ex.sets;
+    const progDue = (wk.tipo === 'prog');
+    const npw = WEEKS.findIndex((w, i) => i >= state.currentWeek && w.tipo === 'prog') + 1 || null;
+    const isComposto = ex.tipo === 'composto';
+    const progKg = ex.prog || (isComposto ? 2.5 : 1);
+    const setsToShow = isDeload ? Math.max(2, ex.sets-2) : (state.currentWeek === 11 && isComposto ? ex.sets-1 : ex.sets);
+
+    // Week-specific technique hints shown directly on the card
+    let techniqueHint = '';
+    if (state.currentWeek === 5 && !isComposto) {
+      techniqueHint = `<div class="prog-hint" style="background:#1a1a08;color:#b8a838;border-radius:6px;padding:8px 10px;border:none;margin-top:8px;">
+        💡 <strong>Semana 5 — Drop set:</strong> na última série deste exercício, ao falhar, reduza o peso em ~30% e continue até falhar de novo. Sem descanso entre as cargas.
+      </div>`;
+    } else if (state.currentWeek === 6 && !isComposto) {
+      techniqueHint = `<div class="prog-hint" style="background:#1a1a08;color:#b8a838;border-radius:6px;padding:8px 10px;border:none;margin-top:8px;">
+        💡 <strong>Semana 6 — Rest-pause (escolha 1 isolamento por dia):</strong> na última série, ao falhar, descanse 10–15s e faça mais algumas reps. Repita 1–2x. Aplique em apenas 1 exercício isolado por treino.
+      </div>`;
+    } else if (state.currentWeek === 9 || state.currentWeek === 10) {
+      techniqueHint = `<div class="prog-hint" style="color:var(--text-hint);margin-top:8px;">
+        🔄 Novo ciclo: se quiser variar, pode trocar este isolamento por outro que trabalhe o mesmo músculo.
+      </div>`;
+    } else if (state.currentWeek === 11 && isComposto) {
+      techniqueHint = `<div class="prog-hint" style="background:#0c2a45;color:#85b7eb;border-radius:6px;padding:8px 10px;border:none;margin-top:8px;">
+        💪 <strong>Semana 11 — Intensificação:</strong> reduza 1 série neste exercício, mas aumente a carga em ~5%.
+      </div>`;
+    }
 
     let progHtml = progDue
-      ? `<div class="prog-hint due">↑ Semana de progressão! Se completou todas as séries com boa forma, aumente 2,5 kg (compostos) ou 1 kg (isolamentos).</div>`
+      ? `<div class="prog-hint due">↑ Semana de progressão! Se completou todas as séries com boa forma, aumente <strong>${progKg} kg</strong> neste exercício.</div>`
       : `<div class="prog-hint">Próxima progressão: ${npw ? 'semana '+npw : 'fim do ciclo'}</div>`;
 
     let rows = '';
@@ -304,7 +325,7 @@ function renderExercises() {
     card.innerHTML = `
       <div class="ex-header">
         <div>
-          <div class="ex-name">${ex.name}</div>
+          <div class="ex-name">${ex.name} <span style="font-size:10px;padding:2px 7px;border-radius:4px;font-weight:600;vertical-align:middle;${isComposto ? 'background:#0c2a45;color:#85b7eb' : 'background:#1a1a08;color:#b8a838'}">${isComposto ? 'Composto' : 'Isolamento'}${progDue ? ' · +'+progKg+'kg esta semana' : ''}</span></div>
           <div class="ex-meta">${setsToShow} séries · ${ex.repsTarget} reps · descanso ${ex.rest}${isDeload?' · volume reduzido (deload)':''}</div>
         </div>
         ${pr ? `<span class="pr-badge">PR: ${pr} kg</span>` : ''}
@@ -313,7 +334,8 @@ function renderExercises() {
         <thead><tr><th>Série</th><th>Peso (kg)</th><th>Reps</th><th>OK</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
-      ${progHtml}`;
+      ${progHtml}
+      ${techniqueHint}`;
     c.appendChild(card);
   });
 }
