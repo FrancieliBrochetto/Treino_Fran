@@ -9,11 +9,11 @@
   :root{--bg:#141413;--surface:#1e1e1c;--border:#2e2e2b;--border-strong:#444440;--text:#e8e8e2;--text-muted:#9b9b93;--text-hint:#6b6b65;--blue-bg:#0c2a45;--blue-text:#85b7eb;--green-bg:#122208;--green-text:#97c459;--amber-bg:#2a1c05;--amber-text:#fac775;--pink-bg:#2a0d1a;--pink-text:#f0a0c0;--radius:10px;--radius-sm:6px}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;color-scheme:dark}
-  .app-shell{max-width:720px;margin:0 auto;padding:0 0 60px}
+  .app-shell{max-width:720px;margin:0 auto;padding:0 0 130px}
   .topbar{background:#181816;border-bottom:1px solid var(--border);padding:14px 20px;position:sticky;top:0;z-index:10}
   .topbar-title{font-size:16px;font-weight:600;margin-bottom:10px}
-  .nav{display:flex;gap:6px;flex-wrap:wrap}
-  .nav-btn{padding:7px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+  .nav{display:flex;gap:5px;flex-wrap:wrap}
+  .nav-btn{padding:7px 13px;border-radius:var(--radius-sm);border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
   .nav-btn:hover{background:var(--bg)}
   .nav-btn.active{background:#0c2a45;color:#85b7eb;border-color:transparent}
   .content{padding:20px}
@@ -105,20 +105,72 @@
   .warmup-item:last-child{border-bottom:none}
   .warmup-item-name{font-size:13px;font-weight:600;margin-bottom:3px}
   .warmup-item-detail{font-size:12px;color:var(--text-muted);line-height:1.5}
+  /* ---- TIMER ---- */
+  .timer-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:#0d1f38;border-top:2px solid #378add;padding:14px 20px;display:none;align-items:center;justify-content:space-between;gap:16px}
+  .timer-bar.show{display:flex}
+  .timer-left{display:flex;flex-direction:column;gap:2px}
+  .timer-label-top{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
+  .timer-countdown{font-size:36px;font-weight:700;color:#85b7eb;font-variant-numeric:tabular-nums;line-height:1}
+  .timer-done-text{font-size:22px;font-weight:700;color:var(--green-text);line-height:1}
+  .timer-skip{padding:10px 20px;border-radius:var(--radius-sm);border:1.5px solid #378add;background:transparent;color:#85b7eb;cursor:pointer;font-size:14px;font-weight:600}
+  /* ---- START DATE BANNER ---- */
+  .start-banner{background:var(--surface);border:1px solid var(--blue-text);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;display:none}
+  .start-banner.show{display:block}
+  .start-banner-title{font-size:13px;font-weight:600;color:var(--blue-text);margin-bottom:4px}
+  .start-banner-sub{font-size:12px;color:var(--text-muted);margin-bottom:10px;line-height:1.5}
+  .start-date-row{display:flex;gap:8px}
+  .start-date-input{flex:1;background:#2a2a27;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);padding:8px 10px;font-size:13px;min-width:0}
+  .start-date-btn{padding:8px 14px;border-radius:var(--radius-sm);background:#0f6e56;color:#9fe1cb;border:none;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap}
+  /* ---- CORPO TAB ---- */
+  .corpo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .corpo-card-title{font-size:15px;font-weight:600;margin-bottom:3px}
+  .corpo-card-sub{font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.5}
+  .corpo-field{margin-bottom:10px}
+  .corpo-field-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+  .corpo-field-label{font-size:12px;color:var(--text-muted);font-weight:500}
+  .tip-btn{font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-hint);cursor:pointer}
+  .corpo-input-row{display:flex;gap:8px;align-items:center}
+  .corpo-input{border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;font-size:14px;flex:1;background:#2a2a27;color:var(--text);outline:none;text-align:center}
+  .corpo-input:focus{border-color:#378add;box-shadow:0 0 0 3px rgba(55,138,221,.12)}
+  .corpo-unit{font-size:12px;color:var(--text-muted);white-space:nowrap}
+  .corpo-tip{font-size:11px;color:var(--text-hint);background:#252520;border-radius:var(--radius-sm);padding:7px 10px;margin-top:5px;line-height:1.5;display:none}
+  .corpo-tip.show{display:block}
+  .corpo-save-btn{width:100%;padding:11px;border-radius:var(--radius);background:#0f6e56;color:#9fe1cb;border:none;cursor:pointer;font-size:14px;font-weight:600;margin-top:8px;transition:background .15s}
+  .corpo-save-btn:hover{background:#085041}
+  .corpo-save-msg{text-align:center;font-size:12px;color:var(--green-text);margin-top:6px;min-height:16px;font-weight:500}
+  .corpo-hist-label{font-size:12px;color:var(--text-hint);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:16px 0 8px}
+  canvas.corpo-chart{width:100%;display:block;border-radius:var(--radius-sm);margin-bottom:4px}
 </style>
 </head>
 <body>
+<div class="timer-bar" id="timer-bar">
+  <div class="timer-left">
+    <div class="timer-label-top">&#9201; Descanso</div>
+    <div class="timer-countdown" id="timer-countdown">60s</div>
+  </div>
+  <button class="timer-skip" onclick="skipTimer()">Pular &#10005;</button>
+</div>
 <div class="app-shell">
   <div class="topbar">
     <div class="topbar-title">Meu Treino &mdash; Fran &#128170;</div>
     <nav class="nav">
       <button class="nav-btn active" onclick="showScreen('treino')">Treino</button>
       <button class="nav-btn" onclick="showScreen('progresso')">Progresso</button>
-      <button class="nav-btn" onclick="showScreen('plano')">Plano 24 semanas</button>
+      <button class="nav-btn" onclick="showScreen('corpo')">Corpo</button>
+      <button class="nav-btn" onclick="showScreen('plano')">Plano 24 sem</button>
     </nav>
   </div>
   <div class="content">
+    <!-- TREINO -->
     <div class="screen active" id="screen-treino">
+      <div class="start-banner" id="start-banner">
+        <div class="start-banner-title">&#128197; Configure a data de in&iacute;cio</div>
+        <div class="start-banner-sub">Informe quando voc&ecirc; come&ccedil;ou o programa para o app avan&ccedil;ar a semana automaticamente toda vez que abrir.</div>
+        <div class="start-date-row">
+          <input type="date" id="start-date-input" class="start-date-input">
+          <button class="start-date-btn" onclick="saveStartDate()">Salvar</button>
+        </div>
+      </div>
       <div class="week-header">
         <div class="week-info">
           <div class="week-title" id="week-title">Semana 1</div>
@@ -133,10 +185,12 @@
       <div class="deload-banner" id="deload-banner">&#9888; <strong>Semana de deload:</strong> reduza o volume em ~40%, mantenha a carga. A hipertrofia real acontece aqui.</div>
       <div class="week-tip" id="week-tip"></div>
       <div class="day-tabs" id="day-tabs"></div>
+      <div id="cardio-container"></div>
       <div id="exercises-container"></div>
       <button class="save-btn" onclick="saveSession()">Salvar treino</button>
       <div class="save-msg" id="save-msg"></div>
     </div>
+    <!-- PROGRESSO -->
     <div class="screen" id="screen-progresso">
       <div class="section-title">Meu progresso</div>
       <div class="ov-grid">
@@ -148,6 +202,12 @@
       <div class="plabel" id="prog-label">Semana 1 de 24</div>
       <div id="progress-list"></div>
     </div>
+    <!-- CORPO -->
+    <div class="screen" id="screen-corpo">
+      <div class="section-title">Corpo</div>
+      <div id="corpo-content"></div>
+    </div>
+    <!-- PLANO -->
     <div class="screen" id="screen-plano">
       <div class="section-title">Plano junho &rarr; dezembro</div>
       <div id="plano-list"></div>
@@ -157,38 +217,50 @@
 <script>
 const WARMUPS={
   "diaA":[
-    {name:"Rotação torácica no chão",detail:"10 rep cada lado — deite de lado, joelho dobrado 90°, rotacione o braço superior abrindo o peito. Lento e controlado."},
-    {name:"Abertura de peito no foam roller",detail:"60 seg — deite com o rolo na altura das escápulas, braços abertos, respire fundo. Sinta o peito abrir."},
-    {name:"Band pull-apart",detail:"15 rep — segure o elástico na frente, braços estendidos, puxe abrindo os braços. Escápulas se encontram no final."},
-    {name:"Remada elástico (ativação escapular)",detail:"15 rep — preso na parede, puxe o elástico retraindo as escápulas. Prepara a postura para o treino de costas."}
+    {name:"Wall slide (mobilidade tor&aacute;cica)",detail:"10 rep &mdash; de frente para a parede, antebratos encostados formando um W, deslize os bra&ccedil;os para cima formando um Y e des&ccedil;a controlado. Excelente para cifose e postura."},
+    {name:"Rota&ccedil;&atilde;o de tronco em p&eacute;",detail:"10 rep cada lado &mdash; bra&ccedil;os abertos na altura dos ombros, gira o tronco de um lado para o outro em movimento cont&iacute;nuo, sem segurar."},
+    {name:"Flex&atilde;o/extens&atilde;o de ombro com bast&atilde;o ou el&aacute;stico leve",detail:"10 rep &mdash; segure nas duas m&atilde;os, eleve at&eacute; onde for confort&aacute;vel e des&ccedil;a controlado. Aquece o manguito rotador e o delt&oacute;ide."},
+    {name:"Punhos e ombros soltando (c&iacute;rculos)",detail:"30 seg &mdash; c&iacute;rculos livres de punho e ombro, pequenos para grandes. Solta a articula&ccedil;&atilde;o antes da carga."}
   ],
   "diaB":[
-    {name:"Ativação de glúteo em 4 apoios (donkey kick)",detail:"15 rep cada lado — quadril neutro, leve o joelho dobrado para cima sem rodar o quadril. Sinta o glúteo contrair."},
-    {name:"Clamshell com elástico",detail:"15 rep cada lado — deitada de lado, joelhos dobrados, abra o joelho superior como uma concha. Elástico acima dos joelhos."},
-    {name:"Hip hinge sem carga (RDL a vazio)",detail:"10 rep lentas — pés na largura dos ombros, empurre o quadril para trás mantendo a coluna neutra. Sinta o alongamento dos isquiotibiais."},
-    {name:"Ponte de glúteo no chão",detail:"15 rep — deitada, pés apoiados, eleve o quadril contraindo o glúteo no topo por 2 seg. Ativa o glúteo máximo antes do hip thrust."}
+    {name:"Lunge din&acirc;mico",detail:"8 rep cada perna &mdash; entra e sai da posi&ccedil;&atilde;o de avan&ccedil;o em movimento cont&iacute;nuo, sem segurar no fundo. Aquece quadril e posterior de coxa."},
+    {name:"Leg swing frontal",detail:"10 rep cada lado &mdash; balance a perna para frente e para tr&aacute;s em movimento solto, sem segurar a amplitude m&aacute;xima. Apoie em algo se precisar de equil&iacute;brio."},
+    {name:"Agachamento livre leve",detail:"2&ndash;3 s&eacute;ries de 10 rep, sem carga &mdash; ativa&ccedil;&atilde;o geral de quadr&iacute;ceps e gl&uacute;teo antes do treino principal."},
+    {name:"Ponte de gl&uacute;teo no ch&atilde;o",detail:"10 rep &mdash; deitada, p&eacute;s apoiados, eleve o quadril contraindo o gl&uacute;teo no topo por 2 seg, sem carga. Ativa o gl&uacute;teo m&aacute;ximo antes da eleva&ccedil;&atilde;o p&eacute;lvica."}
   ],
   "diaC":[
-    {name:"Rotação de ombro com elástico",detail:"15 rep cada sentido — braço estendido, rotacione o ombro com o elástico preso. Aquece o manguito rotador."},
-    {name:"Face pull no cabo (leve)",detail:"15 rep — use carga leve para ativar o deltóide posterior e os rotadores externos antes do treino principal."},
-    {name:"Wall slide (deslize de braços na parede)",detail:"10 rep lentas — costas na parede, braços dobrados em W, deslize para cima formando um Y. Excelente para cifose."}
+    {name:"Wall slide (mobilidade tor&aacute;cica)",detail:"10 rep &mdash; de frente para a parede, antebratos encostados formando um W, deslize os bra&ccedil;os para cima formando um Y e des&ccedil;a controlado."},
+    {name:"Rota&ccedil;&atilde;o de ombro com el&aacute;stico leve",detail:"10 rep cada lado &mdash; bra&ccedil;o estendido, rota&ccedil;&atilde;o externa do ombro com o el&aacute;stico preso. Aquece o manguito rotador."},
+    {name:"C&iacute;rculos de bra&ccedil;o",detail:"30 seg &mdash; c&iacute;rculos de bra&ccedil;o estendido, come&ccedil;ando pequenos e aumentando a amplitude gradualmente."},
+    {name:"Flex&atilde;o de cotovelo leve sem peso",detail:"10 rep &mdash; movimento de rosca a vazio, s&oacute; para aquecer a articula&ccedil;&atilde;o do cotovelo antes da carga."}
   ],
   "diaD":[
-    {name:"Cat-cow (4 apoios)",detail:"10 ciclos lentos — alterne entre arqueamento e arredondamento da coluna. Móbiliza toda a coluna vertebral."},
-    {name:"Bird-dog",detail:"10 rep cada lado — 4 apoios, estenda braço e perna opostos simultaneamente. Core ativo, coluna neutra."},
-    {name:"Dead bug",detail:"8 rep cada lado — deitada, braços ao teto, baixe braço e perna opostos sem encostar no chão. Ativa o core profundo."},
-    {name:"Rotação de quadril em pé",detail:"10 rep cada lado — segure em algo, faça círculos com o joelho elevado. Móbiliza o quadril antes do agachamento."}
+    {name:"Lunge din&acirc;mico",detail:"8 rep cada perna &mdash; entra e sai da posi&ccedil;&atilde;o de avan&ccedil;o em movimento cont&iacute;nuo, sem segurar no fundo."},
+    {name:"Leg swing lateral",detail:"10 rep cada lado &mdash; balance a perna para dentro e para fora (abdu&ccedil;&atilde;o), sem segurar a amplitude m&aacute;xima. J&aacute; prepara o padr&atilde;o de movimento do gl&uacute;teo m&eacute;dio. Apoie em algo se precisar de equil&iacute;brio."},
+    {name:"Dead bug ou bird-dog leve",detail:"1 s&eacute;rie, sem carga &mdash; ativa&ccedil;&atilde;o de core antes do treino principal."},
+    {name:"Agachamento livre leve",detail:"10 rep, sem carga &mdash; ativa&ccedil;&atilde;o geral antes do hack squat."}
   ]
 };
 
+const CARDIO_WEEKS={
+  1:"20 min",2:"20 min",3:"20 min",4:"20 min",
+  5:"15 min (deload)",
+  6:"25 min",7:"25 min",8:"25 min",9:"25 min",
+  10:"15 min (deload)",
+  11:"25–30 min",12:"25–30 min",13:"25–30 min",14:"25–30 min",
+  15:"15 min (deload)",
+  16:"30 min",17:"30 min",18:"30 min",19:"30 min",
+  20:"15–20 min (deload)",
+  21:"20–25 min",22:"20–25 min",23:"20–25 min",24:"20–25 min"
+};
+
 const DAYS=[
-  {id:"diaA",label:"Segunda — Peito + Costas",short:"Treino A",exercises:[
-    {id:"supino_inc",name:"Supino inclinado c/ halteres",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
-    {id:"crucifixo",name:"Crucifixo inclinado c/ halteres",sets:3,rep:"12–15",rest:"60s",tipo:"i",prog:1},
-    {id:"remada_curv",name:"Remada curvada c/ halteres",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
-    {id:"pulldown",name:"Pulldown cabo pegada supinada",sets:4,rep:"10–12",rest:"75s",tipo:"c",prog:2.5},
-    {id:"remada_cabo",name:"Remada unilateral cabo baixo",sets:3,rep:"12",rest:"60s",tipo:"c",prog:2.5},
-    {id:"face_pull_a",name:"Face pull corda",sets:3,rep:"15",rest:"60s",tipo:"i",prog:1}
+  {id:"diaC",label:"Segunda — Ombros + Braços",short:"Treino A",exercises:[
+    {id:"desenv",name:"Desenvolvimento c/ halteres sentada",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
+    {id:"elev_lat",name:"Elevação lateral no cabo",sets:4,rep:"12–15",rest:"60s",tipo:"i",prog:1},
+    {id:"face_pull_c",name:"Face pull corda",sets:4,rep:"15",rest:"60s",tipo:"i",prog:1},
+    {id:"rosca_ez",name:"Rosca direta barra EZ",sets:3,rep:"10–12",rest:"75s",tipo:"i",prog:1},
+    {id:"triceps_oh",name:"Tríceps overhead cabo corda",sets:3,rep:"12–15",rest:"60s",tipo:"i",prog:1}
   ]},
   {id:"diaB",label:"Terça — Glúteos + Posterior",short:"Treino B",exercises:[
     {id:"leg_press",name:"Leg press 45° (pisada alta e larga)",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
@@ -198,12 +270,13 @@ const DAYS=[
     {id:"abd_cabo",name:"Abdução unilateral no cabo",sets:3,rep:"15",rest:"60s",tipo:"i",prog:1,gm:true},
     {id:"kickback",name:"Extensão de quadril no cabo (kickback)",sets:3,rep:"15",rest:"60s",tipo:"i",prog:1}
   ]},
-  {id:"diaC",label:"Sábado — Ombros + Braços",short:"Treino C",exercises:[
-    {id:"desenv",name:"Desenvolvimento c/ halteres sentada",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
-    {id:"elev_lat",name:"Elevação lateral no cabo",sets:4,rep:"12–15",rest:"60s",tipo:"i",prog:1},
-    {id:"face_pull_c",name:"Face pull corda",sets:4,rep:"15",rest:"60s",tipo:"i",prog:1},
-    {id:"rosca_ez",name:"Rosca direta barra EZ",sets:3,rep:"10–12",rest:"75s",tipo:"i",prog:1},
-    {id:"triceps_oh",name:"Tríceps overhead cabo corda",sets:3,rep:"12–15",rest:"60s",tipo:"i",prog:1}
+  {id:"diaA",label:"Quarta — Peito + Costas",short:"Treino C",exercises:[
+    {id:"supino_inc",name:"Supino inclinado c/ halteres",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
+    {id:"crucifixo",name:"Crucifixo inclinado c/ halteres",sets:3,rep:"12–15",rest:"60s",tipo:"i",prog:1},
+    {id:"remada_curv",name:"Remada curvada c/ halteres",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
+    {id:"pulldown",name:"Pulldown cabo pegada supinada",sets:4,rep:"10–12",rest:"75s",tipo:"c",prog:2.5},
+    {id:"remada_cabo",name:"Remada unilateral cabo baixo",sets:3,rep:"12",rest:"60s",tipo:"c",prog:2.5},
+    {id:"face_pull_a",name:"Face pull corda",sets:3,rep:"15",rest:"60s",tipo:"i",prog:1}
   ]},
   {id:"diaD",label:"Domingo — Quadril + Core",short:"Treino D",exercises:[
     {id:"hack_squat",name:"Hack squat (máquina)",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
@@ -252,17 +325,40 @@ const TIPS={
   24:"Semana final! Compare seus PRs com a semana 1 e veja toda a evolução."
 };
 
-let S={w:1,d:0,sessions:{},sets:{}};
-function LS(){try{const s=localStorage.getItem("fran_v3");if(s)S=JSON.parse(s);}catch(e){}}
+const CORPO_TIPS={
+  peso:"Meça sempre pela manhã, em jejum e antes de qualquer refeição. Use a mesma roupa toda semana. O peso flutua ao longo dos dias — o que importa é a tendência ao longo dos meses, não o número isolado.",
+  cintura:"Coloque a fita na altura do umbigo, paralela ao chão. Não sugue a barriga — meça relaxada, no final de uma expiração normal.",
+  quadril:"Coloque a fita na parte mais larga dos glúteos. Fique de lado no espelho para confirmar que a fita está paralela ao chão. Geralmente fica alguns centímetros abaixo da linha do umbigo.",
+  coxaD:"Fique em pé com o peso distribuído nos dois pés. Meça na parte mais grossa da coxa direita, aproximadamente na metade entre o joelho e o quadril. Fita paralela ao chão.",
+  coxaE:"Fique em pé com o peso distribuído nos dois pés. Meça na parte mais grossa da coxa esquerda, aproximadamente na metade entre o joelho e o quadril. Fita paralela ao chão."
+};
+
+// ============ STATE ============
+let S={w:1,d:0,sessions:{},sets:{},startDate:null,corpo:{peso:{},medidas:{}}};
+
+function LS(){
+  try{
+    const s=localStorage.getItem("fran_v3");
+    if(s) S=JSON.parse(s);
+    if(!S.corpo) S.corpo={peso:{},medidas:{}};
+    if(!S.corpo.peso) S.corpo.peso={};
+    if(!S.corpo.medidas) S.corpo.medidas={};
+    if(S.startDate===undefined) S.startDate=null;
+  }catch(e){}
+}
 function SS(){try{localStorage.setItem("fran_v3",JSON.stringify(S));}catch(e){}}
 
+// ============ NAVIGATION ============
 function showScreen(id){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
   document.getElementById("screen-"+id).classList.add("active");
-  ["treino","progresso","plano"].forEach((n,i)=>{if(n===id)document.querySelectorAll(".nav-btn")[i].classList.add("active");});
-  if(id==="progresso")rProg();
-  if(id==="plano")rPlano();
+  ["treino","progresso","corpo","plano"].forEach((n,i)=>{
+    if(n===id) document.querySelectorAll(".nav-btn")[i].classList.add("active");
+  });
+  if(id==="progresso") rProg();
+  if(id==="corpo") rCorpo();
+  if(id==="plano") rPlano();
 }
 
 function changeWeek(d){S.w=Math.max(1,Math.min(24,S.w+d));SS();rWH();rEx();}
@@ -274,8 +370,9 @@ function rWH(){
   document.getElementById("week-num").textContent="S"+S.w;
   document.getElementById("deload-banner").classList.toggle("show",wk.t==="d");
   const te=document.getElementById("week-tip");
-  if(TIPS[S.w]){te.textContent="&#128161; "+TIPS[S.w];te.style.display="block";te.innerHTML="&#128161; "+TIPS[S.w];}
+  if(TIPS[S.w]){te.style.display="block";te.innerHTML="&#128161; "+TIPS[S.w];}
   else te.style.display="none";
+  rCardio();
 }
 
 function rTabs(){
@@ -289,25 +386,145 @@ function rTabs(){
   });
 }
 
+// ============ TIMER ============
+let timerInterval=null;
+let timerSecs=0;
+
+function parseRest(r){
+  const m=String(r).match(/(\d+)/);
+  return m?parseInt(m[1]):60;
+}
+
+function startTimer(secs){
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+  timerSecs=secs;
+  const bar=document.getElementById("timer-bar");
+  const cd=document.getElementById("timer-countdown");
+  cd.className="timer-countdown";
+  bar.classList.add("show");
+  updateTimerDisplay();
+  timerInterval=setInterval(()=>{
+    timerSecs--;
+    if(timerSecs<=0){
+      clearInterval(timerInterval);timerInterval=null;
+      beepTimer();
+      cd.textContent="Vai! \u2713";
+      cd.className="timer-done-text";
+      setTimeout(()=>bar.classList.remove("show"),2500);
+      return;
+    }
+    updateTimerDisplay();
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(timerSecs/60);
+  const s=timerSecs%60;
+  document.getElementById("timer-countdown").textContent=
+    m>0?m+":"+String(s).padStart(2,"0"):s+"s";
+}
+
+function skipTimer(){
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+  document.getElementById("timer-bar").classList.remove("show");
+}
+
+function beepTimer(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    [0,200,400].forEach(delay=>{
+      const osc=ctx.createOscillator();
+      const g=ctx.createGain();
+      osc.connect(g);g.connect(ctx.destination);
+      osc.frequency.value=800;osc.type="sine";
+      g.gain.setValueAtTime(0.3,ctx.currentTime+delay/1000);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+delay/1000+0.25);
+      osc.start(ctx.currentTime+delay/1000);
+      osc.stop(ctx.currentTime+delay/1000+0.3);
+    });
+  }catch(e){}
+}
+
+// ============ START DATE ============
+function initStartDate(){
+  if(!S.startDate){
+    const today=new Date().toISOString().split("T")[0];
+    document.getElementById("start-date-input").value=today;
+    document.getElementById("start-banner").classList.add("show");
+  } else {
+    autoSetWeek();
+  }
+}
+
+function saveStartDate(){
+  const val=document.getElementById("start-date-input").value;
+  if(!val) return;
+  S.startDate=val;SS();
+  document.getElementById("start-banner").classList.remove("show");
+  autoSetWeek();
+  rWH();rEx();
+}
+
+function autoSetWeek(){
+  if(!S.startDate) return;
+  const start=new Date(S.startDate);
+  const now=new Date();
+  const days=Math.floor((now-start)/(1000*60*60*24));
+  if(days<0) return;
+  S.w=Math.min(24,Math.max(1,Math.floor(days/7)+1));
+  SS();
+}
+
+// ============ HELPERS ============
 function gk(w,di,ei,s){return"w"+w+"_"+di+"_"+ei+"_s"+s;}
 function bestW(id){
   let b=0;
-  Object.keys(S.sets).forEach(k=>{if(k.includes("_"+id+"_s")){const w=S.sets[k].weight||0;if(w>b)b=w;}});
+  Object.keys(S.sets).forEach(k=>{
+    if(k.includes("_"+id+"_s")){const w=S.sets[k].weight||0;if(w>b)b=w;}
+  });
   return b>0?b:null;
 }
 
+// ============ CARDIO ============
+function rCardio(){
+  const c=document.getElementById("cardio-container");
+  const dur=CARDIO_WEEKS[S.w]||"20 min";
+  let checks="",doneCount=0;
+  for(let s=1;s<=3;s++){
+    const key="cardio_w"+S.w+"_s"+s;
+    const done=S.sets[key]&&S.sets[key].done;
+    if(done)doneCount++;
+    checks+=`<button class="set-done${done?" checked":""}" style="display:inline-flex;margin:0 8px 0 0;" onclick="tCardio('${key}',this)">${done?"&#10003;":s}</button>`;
+  }
+  c.innerHTML=`
+    <div class="ex-card" style="border-left:3px solid #378add;">
+      <div class="ex-header">
+        <div><div class="ex-name">&#128692; Cardio &mdash; bike spinning<span class="btipo bc">LISS</span></div>
+        <div class="ex-meta">${dur} &middot; 3x por semana &middot; depois do treino ou em dia separado &middot; RPE 5&ndash;6</div></div>
+        <span class="pr-badge">${doneCount}/3 esta semana</span>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin:10px 0 8px;">Marque as sess&otilde;es feitas:</div>
+      <div>${checks}</div>
+    </div>`;
+}
+
+function tCardio(k,btn){
+  if(!S.sets[k])S.sets[k]={};
+  S.sets[k].done=!S.sets[k].done;
+  SS();rCardio();
+}
+
+// ============ EXERCISES ============
 function rEx(){
   const day=DAYS[S.d];
   const wk=WEEKS[S.w-1];
   const isD=wk.t==="d",isP=wk.t==="p",isPico=wk.t==="pico";
   const c=document.getElementById("exercises-container");c.innerHTML="";
 
-  // Render warmup section
   const wu=WARMUPS[day.id];
   if(wu){
     const wuId="warmup-"+day.id;
-    const ws=document.createElement("div");
-    ws.className="warmup-section";
+    const ws=document.createElement("div");ws.className="warmup-section";
     let wuItems=wu.map(w=>`
       <div class="warmup-item">
         <div class="warmup-item-name">${w.name}</div>
@@ -318,8 +535,8 @@ function rEx(){
         <div class="warmup-header-left">
           <span class="warmup-icon">&#9728;&#65039;</span>
           <div>
-            <div class="warmup-title">Aquecimento &mdash; ${wu.length} exercícios</div>
-            <div class="warmup-sub">Toque para expandir &middot; ~8 min antes do treino principal</div>
+            <div class="warmup-title">Aquecimento &mdash; ${wu.length} exerc&iacute;cios</div>
+            <div class="warmup-sub">Toque para expandir &middot; ~5 min antes do treino principal</div>
           </div>
         </div>
         <span class="warmup-chevron" id="chev-${wuId}">&#8964;</span>
@@ -333,79 +550,77 @@ function rEx(){
     const isCo=ex.tipo==="c",isGM=ex.gm===true,isCo2=ex.tipo==="core";
     const pk=ex.prog||(isCo?2.5:1);
     const sts=isD?Math.max(2,ex.sets-2):(isP||isPico)?Math.max(2,ex.sets-1):ex.sets;
+    const restSecs=parseRest(ex.rest);
 
     let bh="";
     const progSuffix=(isP&&pk>0)?" &middot; +"+pk+"kg esta semana":"";
-    if(isGM) bh=`<span class="btipo bg">Glúteo Médio${progSuffix}</span>`;
+    if(isGM) bh=`<span class="btipo bg">Gl&uacute;teo M&eacute;dio${progSuffix}</span>`;
     else if(isCo2) bh=`<span class="btipo bcore">Core</span>`;
     else if(isCo) bh=`<span class="btipo bc">Composto${progSuffix}</span>`;
     else bh=`<span class="btipo bi">Isolamento${progSuffix}</span>`;
 
-    let rirH=(!isD&&!isCo2&&ex.prog>0)?`<div class="rir-hint">RIR 2 &mdash; termine esta série com 2 reps ainda sobrando.</div>`:"";
+    let rirH=(!isD&&!isCo2&&ex.prog>0)?`<div class="rir-hint">RIR 2 &mdash; termine esta s&eacute;rie com 2 reps ainda sobrando.</div>`:"";
 
     let ph="";
     if(isP){
       ph=isGM
-        ?`<div class="phint gdue">&#9650; Progressão de glúteo médio! Se completou todas as séries com boa forma, aumente <strong>${pk}kg</strong>.</div>`
-        :`<div class="phint due">&#9650; Progressão! Se chegou no limite superior de reps em todas as séries, aumente <strong>${pk}kg</strong> e volte ao limite inferior.</div>`;
+        ?`<div class="phint gdue">&#9650; Progress&atilde;o de gl&uacute;teo m&eacute;dio! Se completou todas as s&eacute;ries com boa forma, aumente <strong>${pk}kg</strong>.</div>`
+        :`<div class="phint due">&#9650; Progress&atilde;o! Se chegou no limite superior de reps em todas as s&eacute;ries, aumente <strong>${pk}kg</strong> e volte ao limite inferior.</div>`;
     } else if(isD){
-      ph=`<div class="phint">Deload: faça ${sts} séries com a mesma carga.</div>`;
+      ph=`<div class="phint">Deload: fa&ccedil;a ${sts} s&eacute;ries com a mesma carga.</div>`;
     } else {
       const np=WEEKS.findIndex((w,i)=>i>=S.w&&w.t==="p")+1;
-      ph=`<div class="phint">Dupla progressão: progrida as reps primeiro, depois aumente o peso.${np>0?" Próxima progressão: S"+np:""}</div>`;
+      ph=`<div class="phint">Dupla progress&atilde;o: progrida as reps primeiro, depois aumente o peso.${np>0?" Pr&oacute;xima progress&atilde;o: S"+np:""}</div>`;
     }
 
     let th="";
     if((S.w===11||S.w===12)&&!isCo&&!isCo2)
-      th=`<div class="thint" style="background:#1a1a08;color:#b8a838;">&#128161; <strong>Drop set:</strong> na última série, ao falhar reduza 30% do peso e continue até falhar de novo. Sem descanso.</div>`;
+      th=`<div class="thint" style="background:#1a1a08;color:#b8a838;">&#128161; <strong>Drop set:</strong> na &uacute;ltima s&eacute;rie, ao falhar reduza 30% do peso e continue at&eacute; falhar de novo. Sem descanso.</div>`;
     else if(S.w===13&&!isCo&&!isCo2)
-      th=`<div class="thint" style="background:#1a1a08;color:#b8a838;">&#128161; <strong>Rest-pause (1 isolamento por dia):</strong> ao falhar, descanse 10-15s e faça mais 3-4 reps.</div>`;
+      th=`<div class="thint" style="background:#1a1a08;color:#b8a838;">&#128161; <strong>Rest-pause (1 isolamento por dia):</strong> ao falhar, descanse 10-15s e fa&ccedil;a mais 3-4 reps.</div>`;
     else if(S.w===18&&!isCo&&!isCo2)
       th=`<div class="thint" style="background:#1a1a08;color:#b8a838;">&#128161; Aplique drop sets e rest-pause. Use o que funcionou melhor nos blocos anteriores.</div>`;
     else if((isP||isPico)&&isCo&&S.w>=21)
-      th=`<div class="thint" style="background:#0c2a45;color:#85b7eb;">&#128170; <strong>Pico:</strong> ${sts} séries com +5% de carga.</div>`;
+      th=`<div class="thint" style="background:#0c2a45;color:#85b7eb;">&#128170; <strong>Pico:</strong> ${sts} s&eacute;ries com +5% de carga.</div>`;
 
-    // Optional swap hints at weeks 6, 11, 16 for isolation exercises
     const SWAPS={
-      "crucifixo":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Crossover no cabo &mdash; mesmo músculo, tensão constante.",
-      "kickback":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Glúteo na máquina ou hip extension no cabo.",
+      "crucifixo":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Crossover no cabo &mdash; mesmo m&uacute;sculo, tens&atilde;o constante.",
+      "kickback":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Gl&uacute;teo na m&aacute;quina ou hip extension no cabo.",
       "elev_lat":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode alternar entre cabo e halter a cada bloco.",
       "rosca_ez":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Rosca no cabo ou Rosca concentrada.",
-      "triceps_oh":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Tríceps corda (push-down).",
+      "triceps_oh":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Tr&iacute;ceps corda (push-down).",
       "ext_unilat":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Leg curl sentado unilateral.",
-      "calf":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode alternar entre panturrilha em pé e sentada.",
-      "prancha":"&#128260; <strong>Progressão opcional (S6/S11/S16):</strong> pode evoluir para prancha com toque de ombro ou extensão de perna alternada.",
-      "face_pull_a":"&#128274; <strong>Manter &mdash; não trocar:</strong> fundamental para postura e cifose.",
-      "face_pull_c":"&#128274; <strong>Manter &mdash; não trocar:</strong> fundamental para postura e cifose."
+      "calf":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode alternar entre panturrilha em p&eacute; e sentada.",
+      "prancha":"&#128260; <strong>Progress&atilde;o opcional (S6/S11/S16):</strong> pode evoluir para prancha com toque de ombro ou extens&atilde;o de perna alternada.",
+      "face_pull_a":"&#128274; <strong>Manter &mdash; n&atilde;o trocar:</strong> fundamental para postura e cifose.",
+      "face_pull_c":"&#128274; <strong>Manter &mdash; n&atilde;o trocar:</strong> fundamental para postura e cifose."
     };
     const isSwapWeek=(S.w===6||S.w===11||S.w===16);
-    if(isSwapWeek&&!isCo&&!isCo2&&!isGM&&SWAPS[ex.id]){
+    if(isSwapWeek&&!isCo&&!isCo2&&!isGM&&SWAPS[ex.id])
       th+=`<div class="thint" style="background:#0f1f0f;color:#7ab87a;margin-top:6px;">${SWAPS[ex.id]}</div>`;
-    }
 
     let rows="";
     for(let s=1;s<=sts;s++){
       const key=gk(S.w,day.id,ex.id,s);
       const sv=S.sets[key]||{};
       rows+=`<tr>
-        <td class="set-num-cell">Série ${s}</td>
-        <td><input class="set-input" type="number" min="0" step="0.5" placeholder="—" value="${sv.weight||""}" onchange="uS('${key}','weight',this.value)"></td>
-        <td><input class="set-input" type="number" min="0" placeholder="—" value="${sv.reps||""}" onchange="uS('${key}','reps',this.value)"></td>
-        <td><button class="set-done${sv.done?" checked":""}" onclick="tD('${key}',this)">${sv.done?"&#10003;":""}</button></td>
+        <td class="set-num-cell">S&eacute;rie ${s}</td>
+        <td><input class="set-input" type="number" min="0" step="0.5" placeholder="&mdash;" value="${sv.weight||""}" onchange="uS('${key}','weight',this.value)"></td>
+        <td><input class="set-input" type="number" min="0" placeholder="&mdash;" value="${sv.reps||""}" onchange="uS('${key}','reps',this.value)"></td>
+        <td><button class="set-done${sv.done?" checked":""}" onclick="tD('${key}',this,${restSecs})">${sv.done?"&#10003;":""}</button></td>
       </tr>`;
     }
 
-    const card=document.createElement("div");
-    card.className="ex-card";
+    const card=document.createElement("div");card.className="ex-card";
     card.innerHTML=`
       <div class="ex-header">
         <div><div class="ex-name">${ex.name}${bh}</div>
-        <div class="ex-meta">${sts} séries &middot; ${ex.rep} reps &middot; descanso ${ex.rest}${isD?" &middot; volume reduzido (deload)":""}</div></div>
+        <div class="ex-meta">${sts} s&eacute;ries &middot; ${ex.rep} reps &middot; descanso ${ex.rest}${isD?" &middot; volume reduzido (deload)":""}</div></div>
         ${pr?`<span class="pr-badge">PR: ${pr}kg</span>`:""}
       </div>
       ${rirH}
       <table class="sets-table">
-        <thead><tr><th>Série</th><th>Peso (kg)</th><th>Reps</th><th>OK</th></tr></thead>
+        <thead><tr><th>S&eacute;rie</th><th>Peso (kg)</th><th>Reps</th><th>OK</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
       ${ph}${th}`;
@@ -414,14 +629,20 @@ function rEx(){
 }
 
 function tWU(id){
-  const body=document.getElementById(id);
-  const chev=document.getElementById("chev-"+id);
-  body.classList.toggle("open");
-  chev.classList.toggle("open");
+  document.getElementById(id).classList.toggle("open");
+  document.getElementById("chev-"+id).classList.toggle("open");
 }
 
 function uS(k,f,v){if(!S.sets[k])S.sets[k]={};S.sets[k][f]=f==="weight"?parseFloat(v):parseInt(v);SS();}
-function tD(k,btn){if(!S.sets[k])S.sets[k]={};S.sets[k].done=!S.sets[k].done;SS();btn.classList.toggle("checked",S.sets[k].done);btn.innerHTML=S.sets[k].done?"&#10003;":"";}
+
+function tD(k,btn,restSecs){
+  if(!S.sets[k])S.sets[k]={};
+  S.sets[k].done=!S.sets[k].done;
+  SS();
+  btn.classList.toggle("checked",S.sets[k].done);
+  btn.innerHTML=S.sets[k].done?"&#10003;":"";
+  if(S.sets[k].done&&restSecs) startTimer(restSecs);
+}
 
 function saveSession(){
   const day=DAYS[S.d];
@@ -432,6 +653,7 @@ function saveSession(){
   setTimeout(()=>{m.textContent="";},2500);
 }
 
+// ============ PROGRESS ============
 function rProg(){
   const sess=Object.values(S.sessions);
   document.getElementById("ov-sessions").textContent=sess.length;
@@ -462,8 +684,7 @@ function rProg(){
       if(prev)tr=h.weight>prev.weight?`<span class="trend-up">&#8593; +${(h.weight-prev.weight).toFixed(1)}kg</span>`:"—";
       rows+=`<tr><td>S${h.w}</td><td>${h.weight}kg</td><td>${h.reps}</td><td>${tr}</td></tr>`;
     });
-    const card=document.createElement("div");
-    card.className="prog-card";
+    const card=document.createElement("div");card.className="prog-card";
     const gmb=ex.gm?` <span class="btipo bg">Glúteo Médio</span>`:"";
     card.innerHTML=`<div class="prog-ex-name">${ex.name}${gmb}</div>
       <table class="h-table"><thead><tr><th>Semana</th><th>Peso</th><th>Reps</th><th>Tendência</th></tr></thead><tbody>${rows}</tbody></table>`;
@@ -478,8 +699,7 @@ function rPlano(){
     const ic=wk.w===S.w;
     const bc=wk.t==="d"?"bdeload":wk.t==="p"?"bprog":wk.t==="pico"?"bpico":"bvol";
     const bl=wk.t==="d"?"Deload":wk.t==="p"?"Progressão":wk.t==="pico"?"Pico Dezembro":"Volume";
-    const card=document.createElement("div");
-    card.className="plano-card"+(ic?" current":"");
+    const card=document.createElement("div");card.className="plano-card"+(ic?" current":"");
     card.innerHTML=`
       <div class="plano-wlabel">Semana ${wk.w}${ic?" &middot; você está aqui":""}</div>
       <div class="plano-title">${wk.ph}</div>
@@ -494,7 +714,182 @@ function rPlano(){
 
 function goW(w){S.w=w;SS();showScreen("treino");rWH();rEx();}
 
-LS();rWH();rTabs();rEx();
+// ============ CORPO ============
+function tTip(id){
+  document.getElementById("tip-"+id).classList.toggle("show");
+}
+
+function rCorpo(){
+  const c=document.getElementById("corpo-content");c.innerHTML="";
+  const curMonth=Math.ceil(S.w/4);
+
+  // ---- PESO ----
+  const pesoKey="w"+S.w;
+  const pesoVal=S.corpo.peso[pesoKey]||"";
+  let pesoRows="";let pesoPts=[];
+  for(let w=1;w<=24;w++){
+    const v=S.corpo.peso["w"+w];
+    if(v!=null&&v!==""){
+      const fv=parseFloat(v);
+      const prev=pesoPts.length>0?pesoPts[pesoPts.length-1]:null;
+      pesoPts.push({label:"S"+w,v:fv});
+      let td="—";
+      if(prev){
+        const diff=(fv-prev.v).toFixed(1);
+        td=fv<prev.v?`<span style="color:var(--green-text);font-weight:600">&#8595; ${Math.abs(diff)}kg</span>`:
+          fv>prev.v?`<span style="color:var(--amber-text)">&#8593; +${diff}kg</span>`:"—";
+      }
+      pesoRows+=`<tr><td>S${w}</td><td>${fv} kg</td><td>${td}</td></tr>`;
+    }
+  }
+
+  const pesoCard=document.createElement("div");pesoCard.className="corpo-card";
+  pesoCard.innerHTML=`
+    <div class="corpo-card-title">&#9878; Peso corporal</div>
+    <div class="corpo-card-sub">Registro semanal &mdash; Semana ${S.w} atual</div>
+    <div class="corpo-field">
+      <div class="corpo-field-header">
+        <div class="corpo-field-label">Peso desta semana</div>
+        <button class="tip-btn" onclick="tTip('peso')">&#128161; Dica</button>
+      </div>
+      <div class="corpo-input-row">
+        <input type="number" class="corpo-input" id="input-peso" min="30" max="200" step="0.1" placeholder="&mdash;" value="${pesoVal}">
+        <span class="corpo-unit">kg</span>
+      </div>
+      <div class="corpo-tip" id="tip-peso">${CORPO_TIPS.peso}</div>
+    </div>
+    <button class="corpo-save-btn" onclick="savePeso()">Salvar peso</button>
+    <div class="corpo-save-msg" id="msg-peso"></div>
+    ${pesoPts.length>0?`
+      <div class="corpo-hist-label">Hist&oacute;rico</div>
+      ${pesoPts.length>=2?`<canvas class="corpo-chart" id="chart-peso" height="160"></canvas>`:""}
+      <table class="h-table">
+        <thead><tr><th>Semana</th><th>Peso</th><th>Variação</th></tr></thead>
+        <tbody>${pesoRows}</tbody>
+      </table>`:""
+    }`;
+  c.appendChild(pesoCard);
+  if(pesoPts.length>=2) setTimeout(()=>drawChart("chart-peso",pesoPts,"#378add","kg"),60);
+
+  // ---- MEDIDAS ----
+  const mKey="m"+curMonth;
+  const md=S.corpo.medidas[mKey]||{};
+  const mFields=[
+    {k:"cintura",label:"Cintura"},
+    {k:"quadril",label:"Quadril"},
+    {k:"coxaD",label:"Coxa direita"},
+    {k:"coxaE",label:"Coxa esquerda"}
+  ];
+  let mRows="";
+  for(let m=1;m<=6;m++){
+    const d=S.corpo.medidas["m"+m];
+    if(d&&(d.cintura||d.quadril||d.coxaD||d.coxaE)){
+      mRows+=`<tr>
+        <td>Mês ${m}<br><span style="font-size:10px;color:var(--text-hint)">S${(m-1)*4+1}–S${m*4}</span></td>
+        <td>${d.cintura||"—"}</td><td>${d.quadril||"—"}</td>
+        <td>${d.coxaD||"—"}</td><td>${d.coxaE||"—"}</td>
+      </tr>`;
+    }
+  }
+
+  const medCard=document.createElement("div");medCard.className="corpo-card";
+  medCard.innerHTML=`
+    <div class="corpo-card-title">&#128207; Medidas corporais</div>
+    <div class="corpo-card-sub">Registro mensal &mdash; Mês ${curMonth} (Semanas ${(curMonth-1)*4+1}–${Math.min(curMonth*4,24)})</div>
+    ${mFields.map(f=>`
+      <div class="corpo-field">
+        <div class="corpo-field-header">
+          <div class="corpo-field-label">${f.label}</div>
+          <button class="tip-btn" onclick="tTip('${f.k}')">&#128161; Dica</button>
+        </div>
+        <div class="corpo-input-row">
+          <input type="number" class="corpo-input" id="input-${f.k}" min="20" max="200" step="0.5" placeholder="&mdash;" value="${md[f.k]||""}">
+          <span class="corpo-unit">cm</span>
+        </div>
+        <div class="corpo-tip" id="tip-${f.k}">${CORPO_TIPS[f.k]}</div>
+      </div>`).join("")}
+    <button class="corpo-save-btn" onclick="saveMedidas()">Salvar medidas</button>
+    <div class="corpo-save-msg" id="msg-medidas"></div>
+    ${mRows?`
+      <div class="corpo-hist-label">Hist&oacute;rico por mês</div>
+      <div style="overflow-x:auto">
+      <table class="h-table" style="min-width:340px">
+        <thead><tr><th>Mês</th><th>Cintura</th><th>Quadril</th><th>Coxa D</th><th>Coxa E</th></tr></thead>
+        <tbody>${mRows}</tbody>
+      </table></div>`:""}`;
+  c.appendChild(medCard);
+}
+
+function savePeso(){
+  const val=document.getElementById("input-peso").value;
+  if(!val)return;
+  S.corpo.peso["w"+S.w]=parseFloat(val);SS();
+  const msg=document.getElementById("msg-peso");
+  msg.textContent="&#10003; Peso salvo!";
+  setTimeout(()=>{msg.textContent="";rCorpo();},1500);
+}
+
+function saveMedidas(){
+  const mKey="m"+Math.ceil(S.w/4);
+  if(!S.corpo.medidas[mKey])S.corpo.medidas[mKey]={};
+  ["cintura","quadril","coxaD","coxaE"].forEach(f=>{
+    const v=document.getElementById("input-"+f).value;
+    if(v)S.corpo.medidas[mKey][f]=parseFloat(v);
+  });
+  SS();
+  const msg=document.getElementById("msg-medidas");
+  msg.textContent="&#10003; Medidas salvas!";
+  setTimeout(()=>{msg.textContent="";rCorpo();},1500);
+}
+
+function drawChart(canvasId,pts,color,unit){
+  const canvas=document.getElementById(canvasId);
+  if(!canvas||pts.length<2)return;
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth||300;
+  const H=160;
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  const ctx=canvas.getContext("2d");
+  ctx.scale(dpr,dpr);
+  const vals=pts.map(p=>p.v);
+  const minV=Math.min(...vals);const maxV=Math.max(...vals);
+  const range=maxV-minV||1;
+  const padL=40,padR=12,padT=24,padB=28;
+  const cW=W-padL-padR,cH=H-padT-padB;
+  ctx.strokeStyle="#2e2e2b";ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const y=padT+cH*i/4;
+    ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();
+    const lv=(maxV-range*i/4).toFixed(1);
+    ctx.fillStyle="#6b6b65";ctx.font="10px -apple-system";ctx.textAlign="right";
+    ctx.fillText(lv,padL-4,y+3);
+  }
+  const xFor=i=>padL+cW*i/(pts.length-1);
+  const yFor=v=>padT+cH*(1-(v-minV)/range);
+  ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.lineJoin="round";
+  ctx.beginPath();
+  pts.forEach((p,i)=>i===0?ctx.moveTo(xFor(i),yFor(p.v)):ctx.lineTo(xFor(i),yFor(p.v)));
+  ctx.stroke();
+  ctx.beginPath();
+  pts.forEach((p,i)=>i===0?ctx.moveTo(xFor(i),yFor(p.v)):ctx.lineTo(xFor(i),yFor(p.v)));
+  ctx.lineTo(xFor(pts.length-1),padT+cH);ctx.lineTo(xFor(0),padT+cH);ctx.closePath();
+  ctx.fillStyle=color+"22";ctx.fill();
+  pts.forEach((p,i)=>{
+    const x=xFor(i),y=yFor(p.v);
+    ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#9b9b93";ctx.font="9px -apple-system";ctx.textAlign="center";
+    ctx.fillText(p.label,x,H-padB+12);
+    ctx.fillStyle=color;ctx.font="bold 10px -apple-system";
+    ctx.fillText(p.v+unit,x,y-8);
+  });
+}
+
+// ============ INIT ============
+LS();
+initStartDate();
+rWH();
+rTabs();
+rEx();
 </script>
 </body>
 </html>
