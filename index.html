@@ -105,14 +105,6 @@
   .warmup-item:last-child{border-bottom:none}
   .warmup-item-name{font-size:13px;font-weight:600;margin-bottom:3px}
   .warmup-item-detail{font-size:12px;color:var(--text-muted);line-height:1.5}
-  /* ---- TIMER ---- */
-  .timer-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:#0d1f38;border-top:2px solid #378add;padding:14px 20px;display:none;align-items:center;justify-content:space-between;gap:16px}
-  .timer-bar.show{display:flex}
-  .timer-left{display:flex;flex-direction:column;gap:2px}
-  .timer-label-top{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
-  .timer-countdown{font-size:36px;font-weight:700;color:#85b7eb;font-variant-numeric:tabular-nums;line-height:1}
-  .timer-done-text{font-size:22px;font-weight:700;color:var(--green-text);line-height:1}
-  .timer-skip{padding:10px 20px;border-radius:var(--radius-sm);border:1.5px solid #378add;background:transparent;color:#85b7eb;cursor:pointer;font-size:14px;font-weight:600}
   /* ---- START DATE BANNER ---- */
   .start-banner{background:var(--surface);border:1px solid var(--blue-text);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;display:none}
   .start-banner.show{display:block}
@@ -143,13 +135,6 @@
 </style>
 </head>
 <body>
-<div class="timer-bar" id="timer-bar">
-  <div class="timer-left">
-    <div class="timer-label-top">&#9201; Descanso</div>
-    <div class="timer-countdown" id="timer-countdown">60s</div>
-  </div>
-  <button class="timer-skip" onclick="skipTimer()">Pular &#10005;</button>
-</div>
 <div class="app-shell">
   <div class="topbar">
     <div class="topbar-title">Meu Treino &mdash; Fran &#128170;</div>
@@ -157,7 +142,7 @@
       <button class="nav-btn active" onclick="showScreen('treino')">Treino</button>
       <button class="nav-btn" onclick="showScreen('progresso')">Progresso</button>
       <button class="nav-btn" onclick="showScreen('corpo')">Corpo</button>
-      <button class="nav-btn" onclick="showScreen('plano')">Plano 24 sem</button>
+      <button class="nav-btn" onclick="showScreen('plano')">Plano</button>
     </nav>
   </div>
   <div class="content">
@@ -196,10 +181,13 @@
       <div class="ov-grid">
         <div class="ov-card"><div class="ov-label">Treinos salvos</div><div class="ov-val" id="ov-sessions">0</div></div>
         <div class="ov-card"><div class="ov-label">Semana atual</div><div class="ov-val" id="ov-week">1</div><div class="ov-sub" id="ov-phase">Calibra&ccedil;&atilde;o</div></div>
-        <div class="ov-card"><div class="ov-label">Progresso total</div><div class="ov-val" id="ov-pct">0%</div><div class="ov-sub">das 24 semanas</div></div>
+        <div class="ov-card"><div class="ov-label">Progresso total</div><div class="ov-val" id="ov-pct">0%</div><div class="ov-sub">das <span class="wk-total">24</span> semanas</div></div>
       </div>
       <div class="pbar-wrap"><div class="pbar" id="prog-bar" style="width:0%"></div></div>
-      <div class="plabel" id="prog-label">Semana 1 de 24</div>
+      <div class="plabel" id="prog-label">Semana 1 de <span class="wk-total">24</span></div>
+      <div id="prog-dates" class="plabel" style="margin:6px 0 12px;"></div>
+      <button class="save-btn" style="margin:0 0 14px;" onclick="copySummary()">&#128203; Copiar resumo para an&aacute;lise</button>
+      <div class="save-msg" id="copy-msg"></div>
       <div id="progress-list"></div>
     </div>
     <!-- CORPO -->
@@ -251,35 +239,39 @@ const CARDIO_WEEKS={
   15:"15 min (deload)",
   16:"30 min",17:"30 min",18:"30 min",19:"30 min",
   20:"15–20 min (deload)",
-  21:"20–25 min",22:"20–25 min",23:"20–25 min",24:"20–25 min"
+  21:"20–25 min",22:"20–25 min",23:"20–25 min",24:"20–25 min",
+  25:"15–20 min (deload)",
+  26:"20–25 min",27:"20–25 min",28:"20–25 min",29:"20–25 min",
+  30:"15 min (deload)",
+  31:"20–25 min"
 };
 
 const DAYS=[
   {id:"diaC",label:"Segunda — Ombros + Braços",short:"Treino A",exercises:[
-    {id:"desenv",name:"Desenvolvimento c/ halteres sentada",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
+    {id:"desenv",name:"Desenvolvimento c/ halteres sentada",sets:4,rep:"8–12",rest:"90s",tipo:"c",prog:2.5},
     {id:"elev_lat",name:"Elevação lateral no cabo",sets:4,rep:"12–15",rest:"60s",tipo:"i",prog:1},
     {id:"face_pull_c",name:"Face pull corda",sets:4,rep:"15",rest:"60s",tipo:"i",prog:1},
     {id:"rosca_ez",name:"Rosca direta barra EZ",sets:3,rep:"10–12",rest:"75s",tipo:"i",prog:1},
     {id:"triceps_oh",name:"Tríceps overhead cabo corda",sets:3,rep:"12–15",rest:"60s",tipo:"i",prog:1}
   ]},
   {id:"diaB",label:"Terça — Glúteos + Posterior",short:"Treino B",exercises:[
-    {id:"leg_press",name:"Leg press 45° (pisada alta e larga)",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
-    {id:"rdl",name:"RDL c/ halteres",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
+    {id:"leg_press",name:"Leg press 45° (pisada alta e larga)",sets:4,rep:"8–12",rest:"90s",tipo:"c",prog:2.5},
+    {id:"rdl",name:"RDL c/ halteres",sets:4,rep:"8–12",rest:"90s",tipo:"c",prog:2.5},
     {id:"hip_thrust",name:"Elevação pélvica c/ barra",sets:4,rep:"10–12",rest:"75s",tipo:"c",prog:2.5},
     {id:"abdutora",name:"Cadeira abdutora (inclinada 15°)",sets:3,rep:"15–20",rest:"60s",tipo:"i",prog:1,gm:true},
     {id:"abd_cabo",name:"Abdução unilateral no cabo",sets:3,rep:"15",rest:"60s",tipo:"i",prog:1,gm:true},
     {id:"kickback",name:"Extensão de quadril no cabo (kickback)",sets:3,rep:"15",rest:"60s",tipo:"i",prog:1}
   ]},
   {id:"diaA",label:"Quarta — Peito + Costas",short:"Treino C",exercises:[
-    {id:"supino_inc",name:"Supino inclinado c/ halteres",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
+    {id:"supino_inc",name:"Supino inclinado c/ halteres",sets:4,rep:"8–12",rest:"90s",tipo:"c",prog:2.5},
     {id:"crucifixo",name:"Crucifixo inclinado c/ halteres",sets:3,rep:"12–15",rest:"60s",tipo:"i",prog:1},
-    {id:"remada_curv",name:"Remada curvada c/ halteres",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
+    {id:"remada_curv",name:"Remada curvada c/ halteres",sets:4,rep:"8–12",rest:"90s",tipo:"c",prog:2.5},
     {id:"pulldown",name:"Pulldown cabo pegada supinada",sets:4,rep:"10–12",rest:"75s",tipo:"c",prog:2.5},
     {id:"remada_cabo",name:"Remada unilateral cabo baixo",sets:3,rep:"12",rest:"60s",tipo:"c",prog:2.5},
     {id:"face_pull_a",name:"Face pull corda",sets:3,rep:"15",rest:"60s",tipo:"i",prog:1}
   ]},
   {id:"diaD",label:"Domingo — Quadril + Core",short:"Treino D",exercises:[
-    {id:"hack_squat",name:"Hack squat (máquina)",sets:4,rep:"8–10",rest:"90s",tipo:"c",prog:2.5},
+    {id:"hack_squat",name:"Hack squat (máquina)",sets:4,rep:"8–12",rest:"90s",tipo:"c",prog:2.5},
     {id:"cad_flexora",name:"Cadeira flexora",sets:4,rep:"10–12",rest:"60s",tipo:"i",prog:1},
     {id:"ext_unilat",name:"Cadeira extensora unilateral",sets:3,rep:"12–15",rest:"60s",tipo:"i",prog:1},
     {id:"monster_walk",name:"Monster walk c/ elástico",sets:3,rep:"15 passos",rest:"60s",tipo:"i",prog:0,gm:true},
@@ -309,10 +301,17 @@ const WEEKS=[
   {w:18,ph:"Volume máximo",desc:"Técnicas avançadas consolidadas. Drop sets e rest-pause nos isolamentos.",t:"n"},
   {w:19,ph:"Volume máximo",desc:"Semana mais dura do ciclo. 3 exercícios de glúteo médio ativos por treino de inferior.",t:"n"},
   {w:20,ph:"Deload",desc:"Deload completo. Adaptações acumulando. Não pule este deload.",t:"d"},
-  {w:21,ph:"Pico &mdash; Dezembro",desc:"Reduza 1 série por exercício, aumente a carga em 5%. Supercompensação começa agora.",t:"p"},
-  {w:22,ph:"Pico &mdash; Dezembro",desc:"Mantenha a carga aumentada. Foco em hip thrust, abdutora e cabo.",t:"pico"},
-  {w:23,ph:"Pico &mdash; Dezembro",desc:"Penúltima semana. Máxima intensidade nos isolamentos de glúteo. Compostos com técnica impecável.",t:"pico"},
-  {w:24,ph:"Dezembro &#127919;",desc:"Chegou! Faça um treino completo, registre os PRs finais e compare com a semana 1.",t:"pico"}
+  {w:21,ph:"Volume crescente",desc:"Retomada após o deload: séries completas, RIR 2. Use as cargas da semana 19 como referência.",t:"n"},
+  {w:22,ph:"Volume crescente",desc:"Dupla progressão: progrida as reps dentro da faixa com RIR 2.",t:"n"},
+  {w:23,ph:"Volume crescente",desc:"Continue progredindo. Glúteo médio segue como prioridade em todos os treinos.",t:"n"},
+  {w:24,ph:"Volume crescente",desc:"Última semana antes do deload. Registre tudo e feche as cargas do bloco.",t:"n"},
+  {w:25,ph:"Deload",desc:"Volume reduzido 40%, mesma carga. Recuperação antes do pico final.",t:"d"},
+  {w:26,ph:"Pico &mdash; Dezembro",desc:"Reduza 1 série por exercício (menos nos 3 de glúteo médio, que seguem completos) e aumente a carga em 5%. Supercompensação começa agora.",t:"pico"},
+  {w:27,ph:"Pico &mdash; Dezembro",desc:"Mantenha a carga aumentada. Foco em hip thrust, abdutora e cabo.",t:"pico"},
+  {w:28,ph:"Pico &mdash; Dezembro",desc:"Máxima intensidade nos isolamentos de glúteo. Compostos com técnica impecável.",t:"pico"},
+  {w:29,ph:"Pico &mdash; Dezembro",desc:"Última semana do pico. Mantenha carga e técnica e registre tudo antes do deload.",t:"pico"},
+  {w:30,ph:"Deload",desc:"Volume reduzido 40%, mesma carga. Semana da praia: academia menor, o importante é manter o estímulo.",t:"d"},
+  {w:31,ph:"Fechamento &mdash; Dezembro &#127919;",desc:"Última semana do ciclo! Treino completo, registre os PRs finais e compare com a semana 1.",t:"n"}
 ];
 
 const TIPS={
@@ -321,8 +320,11 @@ const TIPS={
   11:"Drop sets: ao falhar, reduza 30% do peso imediatamente e continue até falhar de novo.",
   13:"Rest-pause: escolha 1 isolamento por dia. Após falhar, 10-15s de pausa, mais 3-4 reps.",
   16:"Volume máximo: adicione 1 série extra nos compostos esta semana.",
-  21:"Pico: -1 série por exercício, +5% de carga. Supercompensação ativa.",
-  24:"Semana final! Compare seus PRs com a semana 1 e veja toda a evolução."
+  21:"Retomada: séries completas com RIR 2, sem técnicas avançadas. Troca opcional de isolamentos permitida (compostos e glúteo médio não).",
+  25:"Deload: mesma carga, 40% menos volume. O pico final começa na próxima semana.",
+  26:"Pico: -1 série por exercício, +5% de carga. Os 3 exercícios de glúteo médio mantêm as séries completas.",
+  30:"Semana da praia: se faltar abdutora ou cabo, faça abdução deitada de lado com caneleira ou elástico. Leve o elástico para o monster walk. Máquina no lugar de halter vale.",
+  31:"Semana final! Compare seus PRs com a semana 1. Na aba Progresso, use Copiar resumo e cole no Claude para montar o próximo ciclo."
 };
 
 const CORPO_TIPS={
@@ -361,7 +363,7 @@ function showScreen(id){
   if(id==="plano") rPlano();
 }
 
-function changeWeek(d){S.w=Math.max(1,Math.min(24,S.w+d));SS();rWH();rEx();}
+function changeWeek(d){S.w=Math.max(1,Math.min(WEEKS.length,S.w+d));SS();rWH();rEx();}
 
 function rWH(){
   const wk=WEEKS[S.w-1];
@@ -384,65 +386,6 @@ function rTabs(){
     b.onclick=()=>{S.d=i;SS();rTabs();rEx();};
     c.appendChild(b);
   });
-}
-
-// ============ TIMER ============
-let timerInterval=null;
-let timerSecs=0;
-
-function parseRest(r){
-  const m=String(r).match(/(\d+)/);
-  return m?parseInt(m[1]):60;
-}
-
-function startTimer(secs){
-  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
-  timerSecs=secs;
-  const bar=document.getElementById("timer-bar");
-  const cd=document.getElementById("timer-countdown");
-  cd.className="timer-countdown";
-  bar.classList.add("show");
-  updateTimerDisplay();
-  timerInterval=setInterval(()=>{
-    timerSecs--;
-    if(timerSecs<=0){
-      clearInterval(timerInterval);timerInterval=null;
-      beepTimer();
-      cd.textContent="Vai! \u2713";
-      cd.className="timer-done-text";
-      setTimeout(()=>bar.classList.remove("show"),2500);
-      return;
-    }
-    updateTimerDisplay();
-  },1000);
-}
-
-function updateTimerDisplay(){
-  const m=Math.floor(timerSecs/60);
-  const s=timerSecs%60;
-  document.getElementById("timer-countdown").textContent=
-    m>0?m+":"+String(s).padStart(2,"0"):s+"s";
-}
-
-function skipTimer(){
-  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
-  document.getElementById("timer-bar").classList.remove("show");
-}
-
-function beepTimer(){
-  try{
-    const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    [0,200,400].forEach(delay=>{
-      const osc=ctx.createOscillator();
-      const g=ctx.createGain();
-      osc.connect(g);g.connect(ctx.destination);
-      osc.frequency.value=800;osc.type="sine";
-      g.gain.setValueAtTime(0.3,ctx.currentTime+delay/1000);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+delay/1000+0.25);
-      osc.start(ctx.currentTime+delay/1000);
-      osc.stop(ctx.currentTime+delay/1000+0.3);
-    });
-  }catch(e){}
 }
 
 // ============ START DATE ============
@@ -471,7 +414,7 @@ function autoSetWeek(){
   const now=new Date();
   const days=Math.floor((now-start)/(1000*60*60*24));
   if(days<0) return;
-  S.w=Math.min(24,Math.max(1,Math.floor(days/7)+1));
+  S.w=Math.min(WEEKS.length,Math.max(1,Math.floor(days/7)+1));
   SS();
 }
 
@@ -549,11 +492,11 @@ function rEx(){
     const pr=bestW(ex.id);
     const isCo=ex.tipo==="c",isGM=ex.gm===true,isCo2=ex.tipo==="core";
     const pk=ex.prog||(isCo?2.5:1);
-    const sts=isD?Math.max(2,ex.sets-2):(isP||isPico)?Math.max(2,ex.sets-1):ex.sets;
-    const restSecs=parseRest(ex.rest);
+    const sts=isD?Math.max(2,ex.sets-2):((isP||isPico)&&!isGM)?Math.max(2,ex.sets-1):ex.sets;
 
     let bh="";
-    const progSuffix=(isP&&pk>0)?" &middot; +"+pk+"kg esta semana":"";
+    const hit=!isD&&hitTop(ex,day);
+    const progSuffix=hit?" &middot; +"+pk+"kg":"";
     if(isGM) bh=`<span class="btipo bg">Gl&uacute;teo M&eacute;dio${progSuffix}</span>`;
     else if(isCo2) bh=`<span class="btipo bcore">Core</span>`;
     else if(isCo) bh=`<span class="btipo bc">Composto${progSuffix}</span>`;
@@ -562,15 +505,12 @@ function rEx(){
     let rirH=(!isD&&!isCo2&&ex.prog>0)?`<div class="rir-hint">RIR 2 &mdash; termine esta s&eacute;rie com 2 reps ainda sobrando.</div>`:"";
 
     let ph="";
-    if(isP){
-      ph=isGM
-        ?`<div class="phint gdue">&#9650; Progress&atilde;o de gl&uacute;teo m&eacute;dio! Se completou todas as s&eacute;ries com boa forma, aumente <strong>${pk}kg</strong>.</div>`
-        :`<div class="phint due">&#9650; Progress&atilde;o! Se chegou no limite superior de reps em todas as s&eacute;ries, aumente <strong>${pk}kg</strong> e volte ao limite inferior.</div>`;
-    } else if(isD){
+    if(isD){
       ph=`<div class="phint">Deload: fa&ccedil;a ${sts} s&eacute;ries com a mesma carga.</div>`;
+    } else if(hit){
+      ph=`<div class="phint ${isGM?"gdue":"due"}">&#9650; Limite superior em todas as s&eacute;ries! Na pr&oacute;xima semana aumente <strong>${pk}kg</strong> e volte ao limite inferior.</div>`;
     } else {
-      const np=WEEKS.findIndex((w,i)=>i>=S.w&&w.t==="p")+1;
-      ph=`<div class="phint">Dupla progress&atilde;o: progrida as reps primeiro, depois aumente o peso.${np>0?" Pr&oacute;xima progress&atilde;o: S"+np:""}</div>`;
+      ph=`<div class="phint">Dupla progress&atilde;o: progrida as reps at&eacute; o topo da faixa em todas as s&eacute;ries, depois aumente o peso.</div>`;
     }
 
     let th="";
@@ -584,18 +524,18 @@ function rEx(){
       th=`<div class="thint" style="background:#0c2a45;color:#85b7eb;">&#128170; <strong>Pico:</strong> ${sts} s&eacute;ries com +5% de carga.</div>`;
 
     const SWAPS={
-      "crucifixo":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Crossover no cabo &mdash; mesmo m&uacute;sculo, tens&atilde;o constante.",
-      "kickback":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Gl&uacute;teo na m&aacute;quina ou hip extension no cabo.",
-      "elev_lat":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode alternar entre cabo e halter a cada bloco.",
-      "rosca_ez":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Rosca no cabo ou Rosca concentrada.",
-      "triceps_oh":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Tr&iacute;ceps corda (push-down).",
-      "ext_unilat":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode substituir por Leg curl sentado unilateral.",
-      "calf":"&#128260; <strong>Troca opcional (S6/S11/S16):</strong> pode alternar entre panturrilha em p&eacute; e sentada.",
-      "prancha":"&#128260; <strong>Progress&atilde;o opcional (S6/S11/S16):</strong> pode evoluir para prancha com toque de ombro ou extens&atilde;o de perna alternada.",
+      "crucifixo":"&#128260; <strong>Troca opcional (S6/S11/S16/S21):</strong> pode substituir por Crossover no cabo &mdash; mesmo m&uacute;sculo, tens&atilde;o constante.",
+      "kickback":"&#128260; <strong>Troca opcional (S6/S11/S16/S21):</strong> pode substituir por Gl&uacute;teo na m&aacute;quina ou hip extension no cabo.",
+      "elev_lat":"&#128260; <strong>Troca opcional (S6/S11/S16/S21):</strong> pode alternar entre cabo e halter a cada bloco.",
+      "rosca_ez":"&#128260; <strong>Troca opcional (S6/S11/S16/S21):</strong> pode substituir por Rosca no cabo ou Rosca concentrada.",
+      "triceps_oh":"&#128260; <strong>Troca opcional (S6/S11/S16/S21):</strong> pode substituir por Tr&iacute;ceps corda (push-down).",
+      "ext_unilat":"&#128260; <strong>Troca opcional (S6/S11/S16/S21):</strong> pode substituir por Leg curl sentado unilateral.",
+      "calf":"&#128260; <strong>Troca opcional (S6/S11/S16/S21):</strong> pode alternar entre panturrilha em p&eacute; e sentada.",
+      "prancha":"&#128260; <strong>Progress&atilde;o opcional (S6/S11/S16/S21):</strong> pode evoluir para prancha com toque de ombro ou extens&atilde;o de perna alternada.",
       "face_pull_a":"&#128274; <strong>Manter &mdash; n&atilde;o trocar:</strong> fundamental para postura e cifose.",
       "face_pull_c":"&#128274; <strong>Manter &mdash; n&atilde;o trocar:</strong> fundamental para postura e cifose."
     };
-    const isSwapWeek=(S.w===6||S.w===11||S.w===16);
+    const isSwapWeek=(S.w===6||S.w===11||S.w===16||S.w===21);
     if(isSwapWeek&&!isCo&&!isCo2&&!isGM&&SWAPS[ex.id])
       th+=`<div class="thint" style="background:#0f1f0f;color:#7ab87a;margin-top:6px;">${SWAPS[ex.id]}</div>`;
 
@@ -607,7 +547,7 @@ function rEx(){
         <td class="set-num-cell">S&eacute;rie ${s}</td>
         <td><input class="set-input" type="number" min="0" step="0.5" placeholder="&mdash;" value="${sv.weight||""}" onchange="uS('${key}','weight',this.value)"></td>
         <td><input class="set-input" type="number" min="0" placeholder="&mdash;" value="${sv.reps||""}" onchange="uS('${key}','reps',this.value)"></td>
-        <td><button class="set-done${sv.done?" checked":""}" onclick="tD('${key}',this,${restSecs})">${sv.done?"&#10003;":""}</button></td>
+        <td><button class="set-done${sv.done?" checked":""}" onclick="tD('${key}',this)">${sv.done?"&#10003;":""}</button></td>
       </tr>`;
     }
 
@@ -633,15 +573,48 @@ function tWU(id){
   document.getElementById("chev-"+id).classList.toggle("open");
 }
 
-function uS(k,f,v){if(!S.sets[k])S.sets[k]={};S.sets[k][f]=f==="weight"?parseFloat(v):parseInt(v);SS();}
+function exById(id){let r=null;DAYS.forEach(d=>d.exercises.forEach(e=>{if(e.id===id)r=e;}));return r;}
+function setsFor(ex){
+  const t=WEEKS[S.w-1].t;
+  return t==="d"?Math.max(2,ex.sets-2):((t==="p"||t==="pico")&&!ex.gm)?Math.max(2,ex.sets-1):ex.sets;
+}
+function uS(k,f,v){
+  if(!S.sets[k])S.sets[k]={};
+  const num=f==="weight"?parseFloat(v):parseInt(v);
+  if(isNaN(num)){delete S.sets[k][f];if(f==="weight")delete S.sets[k].auto;}
+  else S.sets[k][f]=num;
+  const m=k.match(/^(w\d+_[^_]+_)(.+)_s(\d+)$/);
+  if(f==="weight"&&m){
+    if(m[3]==="1"&&!isNaN(num)){
+      const ex=exById(m[2]);
+      const n=ex?setsFor(ex):4;
+      for(let i=2;i<=n;i++){
+        const kk=m[1]+m[2]+"_s"+i;
+        const cur=S.sets[kk]||{};
+        if(cur.weight==null||cur.auto){S.sets[kk]=Object.assign(cur,{weight:num,auto:true});}
+      }
+    } else if(m[3]!=="1"){delete S.sets[k].auto;}
+  }
+  SS();
+  if(f==="reps"||(f==="weight"&&m&&m[3]==="1"))rEx();
+}
+function topReps(r){const n=String(r).match(/\d+/g);return n?parseInt(n[n.length-1]):0;}
+function hitTop(ex,day){
+  if(!(ex.prog>0)||/passos|s$/.test(ex.rep))return false;
+  const top=topReps(ex.rep),n=setsFor(ex);
+  for(let i=1;i<=n;i++){
+    const sv=S.sets[gk(S.w,day.id,ex.id,i)]||{};
+    if(!(sv.weight>0)||!(sv.reps>=top))return false;
+  }
+  return true;
+}
 
-function tD(k,btn,restSecs){
+function tD(k,btn){
   if(!S.sets[k])S.sets[k]={};
   S.sets[k].done=!S.sets[k].done;
   SS();
   btn.classList.toggle("checked",S.sets[k].done);
   btn.innerHTML=S.sets[k].done?"&#10003;":"";
-  if(S.sets[k].done&&restSecs) startTimer(restSecs);
 }
 
 function saveSession(){
@@ -659,17 +632,24 @@ function rProg(){
   document.getElementById("ov-sessions").textContent=sess.length;
   document.getElementById("ov-week").textContent=S.w;
   document.getElementById("ov-phase").textContent=WEEKS[S.w-1].ph;
-  const pct=Math.round((S.w/24)*100);
+  const pct=Math.round((S.w/WEEKS.length)*100);
   document.getElementById("ov-pct").textContent=pct+"%";
   document.getElementById("prog-bar").style.width=pct+"%";
-  document.getElementById("prog-label").textContent="Semana "+S.w+" de 24";
+  document.getElementById("prog-label").textContent="Semana "+S.w+" de "+WEEKS.length;
+  const pd=document.getElementById("prog-dates");
+  if(S.startDate){
+    const [y,m,d]=S.startDate.split("-").map(Number);
+    const st=new Date(y,m-1,d),en=new Date(y,m-1,d+WEEKS.length*7-1);
+    const f=x=>x.toLocaleDateString("pt-BR");
+    pd.innerHTML="In&iacute;cio: <strong>"+f(st)+"</strong> &middot; Fim previsto: <strong>"+f(en)+"</strong>";
+  } else pd.textContent="";
   const list=document.getElementById("progress-list");list.innerHTML="";
   const allEx=[];
   DAYS.forEach(d=>d.exercises.forEach(e=>{if(!allEx.find(x=>x.id===e.id))allEx.push({id:e.id,name:e.name,gm:e.gm});}));
   let has=false;
   allEx.forEach(ex=>{
     const hist=[];
-    for(let w=1;w<=24;w++){
+    for(let w=1;w<=WEEKS.length;w++){
       DAYS.forEach(d=>{
         const k=gk(w,d.id,ex.id,1);
         if(S.sets[k]&&S.sets[k].weight)hist.push({w,weight:S.sets[k].weight,reps:S.sets[k].reps||"—"});
@@ -693,6 +673,13 @@ function rProg(){
   if(!has)list.innerHTML=`<div class="empty-msg">Nenhum dado ainda. Salve seus treinos para ver o progresso!</div>`;
 }
 
+function wkRange(w){
+  if(!S.startDate)return "";
+  const [y,m,d]=S.startDate.split("-").map(Number);
+  const a=new Date(y,m-1,d+(w-1)*7),b=new Date(y,m-1,d+(w-1)*7+6);
+  const f=x=>x.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"});
+  return f(a)+"–"+f(b);
+}
 function rPlano(){
   const list=document.getElementById("plano-list");list.innerHTML="";
   WEEKS.forEach(wk=>{
@@ -701,7 +688,7 @@ function rPlano(){
     const bl=wk.t==="d"?"Deload":wk.t==="p"?"Progressão":wk.t==="pico"?"Pico Dezembro":"Volume";
     const card=document.createElement("div");card.className="plano-card"+(ic?" current":"");
     card.innerHTML=`
-      <div class="plano-wlabel">Semana ${wk.w}${ic?" &middot; você está aqui":""}</div>
+      <div class="plano-wlabel">Semana ${wk.w}${wkRange(wk.w)?" &middot; "+wkRange(wk.w):""}${ic?" &middot; você está aqui":""}</div>
       <div class="plano-title">${wk.ph}</div>
       <div class="plano-desc">${wk.desc}</div>
       <div class="plano-footer">
@@ -727,7 +714,7 @@ function rCorpo(){
   const pesoKey="w"+S.w;
   const pesoVal=S.corpo.peso[pesoKey]||"";
   let pesoRows="";let pesoPts=[];
-  for(let w=1;w<=24;w++){
+  for(let w=1;w<=WEEKS.length;w++){
     const v=S.corpo.peso["w"+w];
     if(v!=null&&v!==""){
       const fv=parseFloat(v);
@@ -781,7 +768,7 @@ function rCorpo(){
     {k:"coxaE",label:"Coxa esquerda"}
   ];
   let mRows="";
-  for(let m=1;m<=6;m++){
+  for(let m=1;m<=Math.ceil(WEEKS.length/4);m++){
     const d=S.corpo.medidas["m"+m];
     if(d&&(d.cintura||d.quadril||d.coxaD||d.coxaE)){
       mRows+=`<tr>
@@ -795,7 +782,7 @@ function rCorpo(){
   const medCard=document.createElement("div");medCard.className="corpo-card";
   medCard.innerHTML=`
     <div class="corpo-card-title">&#128207; Medidas corporais</div>
-    <div class="corpo-card-sub">Registro mensal &mdash; Mês ${curMonth} (Semanas ${(curMonth-1)*4+1}–${Math.min(curMonth*4,24)})</div>
+    <div class="corpo-card-sub">Registro mensal &mdash; Mês ${curMonth} (Semanas ${(curMonth-1)*4+1}–${Math.min(curMonth*4,WEEKS.length)})</div>
     ${mFields.map(f=>`
       <div class="corpo-field">
         <div class="corpo-field-header">
@@ -884,8 +871,42 @@ function drawChart(canvasId,pts,color,unit){
   });
 }
 
+// ============ COPY SUMMARY ============
+function buildSummary(){
+  const L=[];
+  L.push("RESUMO DE TREINO — Fran");
+  L.push("Semana atual: "+S.w+"/"+WEEKS.length+" ("+WEEKS[S.w-1].ph.replace(/&[^;]+;/g,"")+")");
+  if(S.startDate)L.push("Início: "+S.startDate);
+  L.push("Treinos salvos: "+Object.keys(S.sessions).length);
+  L.push("");
+  for(let w=1;w<=S.w;w++){
+    const out=[];
+    DAYS.forEach(d=>d.exercises.forEach(e=>{
+      const parts=[];
+      for(let i=1;i<=e.sets+1;i++){
+        const sv=S.sets[gk(w,d.id,e.id,i)];
+        if(sv&&(sv.weight||sv.reps))parts.push((sv.weight||"?")+"kg x "+(sv.reps||"?"));
+      }
+      if(parts.length)out.push("  "+d.short+" | "+e.name+" ["+e.rep+"]: "+parts.join(", "));
+    }));
+    if(out.length){L.push("Semana "+w+":");L.push(...out);}
+  }
+  const pk=Object.keys(S.corpo.peso||{});
+  if(pk.length){L.push("");L.push("Peso corporal: "+pk.map(k=>k.replace("w","S")+"="+S.corpo.peso[k]+"kg").join(", "));}
+  const mk=Object.keys(S.corpo.medidas||{});
+  if(mk.length){L.push("Medidas (cm):");mk.forEach(k=>L.push("  "+k.replace("m","Mês ")+": "+JSON.stringify(S.corpo.medidas[k])));}
+  return L.join("\n");
+}
+function copySummary(){
+  const t=buildSummary(),m=document.getElementById("copy-msg");
+  const ok=()=>{m.textContent="✓ Resumo copiado! Cole no Claude.";setTimeout(()=>{m.textContent="";},3000);};
+  const fb=()=>{const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok();}catch(e){m.textContent="Não consegui copiar.";}document.body.removeChild(a);};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb();
+}
+
 // ============ INIT ============
 LS();
+document.querySelectorAll(".wk-total").forEach(e=>{e.textContent=WEEKS.length;});
 initStartDate();
 rWH();
 rTabs();
